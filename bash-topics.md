@@ -16,6 +16,35 @@ Appending a minus sign to the redirection operator __<<-__, will cause all leadi
 * The here-document block can contain strings, variables, commands and any other type of input.
 * The last line ends with the delimiting identifier. White space in front of the delimiter is __not allowed__.
 
+__Samples:__
+
+1.
+~~~
+cat << EOF
+The current working directory is: $PWD
+You are logged in as: $(whoami)
+EOF
+~~~
+Output:
+~~~
+The current working directory is: /home/linuxize
+You are logged in as: linuxize
+~~~
+
+2. If we enclose the delimiter in single or double quotes.
+
+~~~
+cat <<- "EOF"
+The current working directory is: $PWD
+You are logged in as: $(whoami)
+EOF
+~~~
+Output:
+~~~
+The current working directory is: $PWD
+You are logged in as: $(whoami)
+~~~~
+
 __Ref:__ https://linuxize.com/post/bash-heredoc/
 
 ---
