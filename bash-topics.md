@@ -48,3 +48,31 @@ You are logged in as: $(whoami)
 __Ref:__ https://linuxize.com/post/bash-heredoc/
 
 ---
+
+
+# Extended Globbing
+
+If you use switch/case conditions and want to use the content of a variable as alternating ("|") patterns.
+
+__Samples:__
+
+~~~
+shopt -s extglob
+
+string='@(foo|bar)'
+
+read choice
+    case $choice in
+        $string )      printf 'String  choice %-20s' "$choice"; ;;&
+        $s1|$s2 )      printf 'Two val choice %-20s' "$choice"; ;;
+        *)             printf 'A Bad  choice! %-20s' "$choice"; ;;
+    esac
+echo
+~~~
+
+
+__Ref:__ 
+https://unix.stackexchange.com/questions/234264/how-can-i-use-a-variable-as-a-case-condition
+http://mywiki.wooledge.org/glob
+
+---
