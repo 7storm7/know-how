@@ -9,3 +9,7 @@ And more discussions: https://stackoverflow.com/questions/2290016/git-commit-mes
 
 # Technical debt:
 https://devopedia.org/images/article/211/1799.1594111209.png
+
+# SOLID principles:
+Nice document describing with easy to understand illustrations:
+https://medium.com/backticks-tildes/the-s-o-l-i-d-principles-in-pictures-b34ce2f1e898
