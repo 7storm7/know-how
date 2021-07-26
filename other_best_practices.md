@@ -5,3 +5,7 @@ An analysis of the commit messages in the linux kernel revealed that 50 characte
 
 Origin: https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 And more discussions: https://stackoverflow.com/questions/2290016/git-commit-messages-50-72-formatting
+
+
+# Technical debt:
+https://devopedia.org/images/article/211/1799.1594111209.png
