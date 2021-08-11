@@ -35,3 +35,10 @@ https://grpc.io/docs/platforms/android/java/quickstart/
 https://static.sched.com/hosted_files/devconfcz2020a/b1/DevConf.CZ_2020_vsock_v1.1.pdf
 https://android.googlesource.com/device/google/trout/+/refs/heads/master/hal/vehicle/2.0/GrpcVehicleClient.cpp
 https://medium.com/swlh/a-beginners-guide-to-grpc-in-android-61cc56a423f7
+
+### Crosscompile grpc for QNX
+https://github.com/grpc/grpc/issues/16918
+https://stackoverflow.com/questions/62385485/not-able-to-cross-compile-grpc-for-qnx-platform-using-aarch64-unknown-nto-qnx7-0
+
+Google had changed https://cs.android.com/android/platform/superproject/+/master:external/grpc-grpc/src/core/ext/filters/client_channel/parse_address.cc;l=77?q=AF_VSOCK&sq=&ss=android%2Fplatform%2Fsuperproject:external%2Fgrpc-grpc%2F
+to add VSOCK support.
