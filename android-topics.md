@@ -15,9 +15,15 @@ VNDK is a set of shared libraries for vendors to implement vendor modules.
 https://source.android.com/devices/architecture/vintf
 
 
-
-
 TREBLE
+
+
+# Tradefed
+
+## InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand##
+This function can be used in the tests that will run on target (test classes which extend InstrumentationTestCase)
+Runs the command in the background not on terminal and pipes the output to a file returned from executeShellCommand.
+So if you want to check the output read the file. __And make sure you close the file after you are done with it!__
 
 # AAOS Virtualization
 Cuttlefish
