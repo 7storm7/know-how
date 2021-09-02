@@ -64,4 +64,4 @@ You can use the stateful functionality of iptables connection tracking with any 
 * https://www.digitalocean.com/community/tutorials/a-deep-dive-into-iptables-and-netfilter-architecture
 * https://home.regit.org/netfilter-en/secure-use-of-helpers/
 * http://help.stonesoft.com/onlinehelp/StoneGate/SMC/6.1.3/GUID-0CD08BDC-EDE6-43F1-8F72-DACADB0C5BAB.html
-  
+* https://iximiuz.com/en/posts/laymans-iptables-101/  
