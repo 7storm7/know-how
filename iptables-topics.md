@@ -5,10 +5,9 @@
 **Rules:** A rule is a statement that tells the system what to do with a packet. Rules can block one type of packet, or forward another type of packet. The outcome, where a packet is sent, is called a target.
 **Targets:** A target is a decision of what to do with a packet. Typically, this is to accept it, drop it, or reject it (which sends an error back to the sender).
 
-So,
+So, basically the structure is:
 
-                                       **Table > Chain > Rules**
-
+                                                           iptables -> Tables -> Chains -> Rules
 
 # Basic operations:
 ## Listing rules (-L)
@@ -29,7 +28,8 @@ $ sudo iptables -A INPUT -p tcp --dport 22 -m comment --comment "allow ssh"
 iptables –D <Chain> <Number>
 e.g. iptables –D INPUT 1 
   
-  
+
+# Features 
 ## Conection Tracking
 Connection tracking means that the engine keeps a record of all currently open connections (stateful inspection).
 With connection tracking, the engine can verify that the connection proceeds according to the protocol standards. Connection tracking is also required for changing addresses using NAT and enforcing some other connection-related settings. By default, connection tracking is on.
@@ -47,6 +47,7 @@ You can use the stateful functionality of iptables connection tracking with any 
 
 **Refs:**
 * https://phoenixnap.com/kb/iptables-tutorial-linux-firewall
+  https://www.thegeekstuff.com/2011/01/iptables-fundamentals/
 * https://www.digitalocean.com/community/tutorials/a-deep-dive-into-iptables-and-netfilter-architecture
 * https://home.regit.org/netfilter-en/secure-use-of-helpers/
 * http://help.stonesoft.com/onlinehelp/StoneGate/SMC/6.1.3/GUID-0CD08BDC-EDE6-43F1-8F72-DACADB0C5BAB.html
