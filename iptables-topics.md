@@ -15,6 +15,7 @@ So, basically the structure is:
 # Basic operations:
 ## Listing rules (-L)
 Additional options to extend the information:
+
 **-v** — Displays verbose output, such as the number of packets and bytes each chain has seen, the number of packets and bytes each rule has matched, and which interfaces apply to a particular rule.
 
 **-x** — Expands numbers into their exact values. On a busy system, the number of packets and bytes seen by a particular chain or rule may be abbreviated using K (thousands), M (millions), and G (billions) at the end of the number. This option forces the full number to be displayed.
@@ -45,6 +46,7 @@ With connection tracking, the engine can verify that the connection proceeds acc
 This table uses builtin chains like Prerouting and Output chains.
 
 You can inspect and restrict connections to services based on their connection state. A module within iptables uses a method called connection tracking to store information about incoming connections. You can allow or deny access based on the following connection states:
+  
 NEW — A packet requesting a new connection, such as an HTTP request.
   
 ESTABLISHED — A packet that is part of an existing connection.
