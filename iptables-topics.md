@@ -16,9 +16,13 @@ So, basically the structure is:
 ## Listing rules (-L)
 Additional options to extend the information:
 **-v** — Displays verbose output, such as the number of packets and bytes each chain has seen, the number of packets and bytes each rule has matched, and which interfaces apply to a particular rule.
+
 **-x** — Expands numbers into their exact values. On a busy system, the number of packets and bytes seen by a particular chain or rule may be abbreviated using K (thousands), M (millions), and G (billions) at the end of the number. This option forces the full number to be displayed.
+
 **-n** — Displays IP addresses and port numbers in numeric format, rather than the default hostname and network service format.
+
 **--line-numbers** — Lists rules in each chain next to their numeric order in the chain. This option is useful when attempting to delete the specific rule in a chain or to locate where to insert a rule within a chain.
+
 **-t** — Specifies a table name.
 
 ### List a table (-t) content
@@ -42,9 +46,13 @@ This table uses builtin chains like Prerouting and Output chains.
 
 You can inspect and restrict connections to services based on their connection state. A module within iptables uses a method called connection tracking to store information about incoming connections. You can allow or deny access based on the following connection states:
 NEW — A packet requesting a new connection, such as an HTTP request.
+  
 ESTABLISHED — A packet that is part of an existing connection.
+  
 RELATED — A packet that is requesting a new connection but is part of an existing connection. For example, FTP uses port 21 to establish a connection, but data is transferred on a different port (typically port 20).
+  
 INVALID — A packet that is not part of any connections in the connection tracking table.
+  
 You can use the stateful functionality of iptables connection tracking with any network protocol, even if the protocol itself is stateless (such as UDP). The following example shows a rule that uses connection tracking to forward only the packets that are associated with an established connection:
   
 
