@@ -72,8 +72,8 @@ echo
 
 
 __Ref:__ 
-https://unix.stackexchange.com/questions/234264/how-can-i-use-a-variable-as-a-case-condition
-http://mywiki.wooledge.org/glob
+* https://unix.stackexchange.com/questions/234264/how-can-i-use-a-variable-as-a-case-condition
+* http://mywiki.wooledge.org/glob
 
 ---
 
@@ -147,8 +147,8 @@ ${PARAMETER:?WORD}
 ${PARAMETER?WORD}
 ```
 __Ref:__
-https://wiki.bash-hackers.org/syntax/pe
-https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html
+* https://wiki.bash-hackers.org/syntax/pe
+* https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html
 
 ---
 
