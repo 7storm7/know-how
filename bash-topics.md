@@ -76,3 +76,79 @@ https://unix.stackexchange.com/questions/234264/how-can-i-use-a-variable-as-a-ca
 http://mywiki.wooledge.org/glob
 
 ---
+
+
+# Parameter Expansion, Command Substitution, Arıthmetic Expansion 
+Use of __$__ and curly brackets(optional) with a parameter name for parameter expansion, command substitution, or arithmetic expansion.
+## Simple usage
+```
+$PARAMETER
+${PARAMETER}
+````
+## Indirection
+```
+${!PARAMETER}
+```
+## Case modification
+```
+${PARAMETER^}
+${PARAMETER^^}
+${PARAMETER,}
+${PARAMETER,,}
+${PARAMETER~}
+${PARAMETER~~}
+```
+## Variable name expansion
+```
+${!PREFIX*}
+${!PREFIX@}
+```
+## Substring removal (also for filename manipulation!)
+```
+${PARAMETER#PATTERN}
+${PARAMETER##PATTERN}
+${PARAMETER%PATTERN}
+${PARAMETER%%PATTERN}
+```
+## Search and replace
+```
+${PARAMETER/PATTERN/STRING}
+${PARAMETER//PATTERN/STRING}
+${PARAMETER/PATTERN}
+${PARAMETER//PATTERN}
+```
+## String length
+```
+${#PARAMETER}
+```
+## Substring expansion
+```
+${PARAMETER:OFFSET}
+${PARAMETER:OFFSET:LENGTH}
+```
+## Use a default value
+```
+${PARAMETER:-WORD}
+${PARAMETER-WORD}
+```
+## Assign a default value
+```
+${PARAMETER:=WORD}
+${PARAMETER=WORD}
+```
+## Use an alternate value
+```
+${PARAMETER:+WORD}
+${PARAMETER+WORD}
+```
+## Display error if null or unset
+```
+${PARAMETER:?WORD}
+${PARAMETER?WORD}
+```
+__Ref:__
+https://wiki.bash-hackers.org/syntax/pe
+https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html
+
+---
+
