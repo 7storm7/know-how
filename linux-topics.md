@@ -54,3 +54,12 @@ ccache: error: Failed to create directory /run/user/65534/ccache-tmp: Permission
 08:57:37 ninja failed with: exit status 1
 ```
 So, if it happens, kill all the processes nobody is running and bury the updatedb daemon deep down inside :)
+
+
+# Filesystem Hierarchy Standard
+It defines the directory structure and directory contents in Linux distributions.[1] It is maintained by the Linux Foundation. The latest version is 3.0, released on 3 June 2015.[2]
+
+Linux distributions (and other operating systems) **_can voluntarily conform to the FHS_**. The Freedesktop.org project, with its XDG Base Directory Specification, introduced variables to make a computer's file system hierarchy configurable, for users.
+
+Ref: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
+
