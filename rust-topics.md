@@ -23,6 +23,7 @@ Types such as integers that have a known size at compile time are stored entirel
 **The ownership of a variable follows the same pattern every time: assigning a value to another variable moves it. When a variable that includes data on the heap goes out of scope, the value will be cleaned up by drop unless ownership of the data has been moved to another variable.**
 Rust has a feature for using a value without transferring ownership, called references (referencing/dereferencing).
 
+* Mutable references have one big restriction: you can have only one mutable reference to a particular piece of data at a time.
 
 ## Terminology
 
@@ -54,7 +55,47 @@ let number = if condition { 5 } else { 6 };
 ```
 * Arms: If expressions are sometimes called arms, just like the arms in match expressions.
 * Loop label: You can label loops to use with break and continue keywords. The format is '<label name>. e.g.: 'outer_loop
+* Data race: A data race is similar to a race condition and happens when these three behaviors occur:
+    - Two or more pointers access the same data at the same time.
+    - At least one of the pointers is being used to write to the data.
+    - There’s no mechanism being used to synchronize access to the data.
+Data races cause undefined behavior and can be difficult to diagnose and fix when you’re trying to track them down at runtime; Rust prevents this problem by refusing to compile code with data races!
+Rust enforces a similar rule for combining mutable and immutable references. 
+* Non-Lexical Lifetimes (NLL): A reference’s scope starts from where it is introduced and continues through the last time that reference is used. So this code is permitted by the compiler:
+    ```
+    let mut s = String::from("hello");
 
+    let r1 = &s; // no problem
+    let r2 = &s; // no problem
+    println!("{} and {}", r1, r2);
+    // variables r1 and r2 will not be used after this point
+
+    let r3 = &mut s; // no problem
+    println!("{}", r3);
+    ```
+* Dangling references: In Rust, the compiler guarantees that references will never be dangling references: if you have a reference to some data, the compiler will ensure that the data will not go out of scope before the reference to the data does.
+* String slices: A string slice is a reference to part of a String, and it looks like this:
+```
+    let s = String::from("hello world");
+
+    let hello = &s[0..5];
+    let world = &s[6..11];
+```
+The type that signifies “string slice” is written as &str.
+```
+    fn first_word(s: &String) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+
+    &s[..]
+}
+```
+    
 ## Types
 
 # Scalar Types: 
@@ -86,7 +127,7 @@ let number = if condition { 5 } else { 6 };
   
 ## Best Practices
 
-    * It’s good style to place the opening curly bracket on the same line as the function declaration, adding one space in between.
+* It’s good style to place the opening curly bracket on the same line as the function declaration, adding one space in between.
 * Run cargo check periodically as they write their program to make sure it compiles.
 * Rust’s naming convention for constants is to use all uppercase with underscores between words. 
   
