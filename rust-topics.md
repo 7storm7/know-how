@@ -24,6 +24,8 @@ Types such as integers that have a known size at compile time are stored entirel
 Rust has a feature for using a value without transferring ownership, called references (referencing/dereferencing).
 
 Types such as integers that have a known size at compile time are stored entirely on the stack, so copies of the actual values are quick to make. So when you assing from one variable to the other the variable doesn't get invalid after assignment.Complier just clones the content.
+Rust has a special annotation called the **Copy trait** that we can place on types that are stored on the stack like integers are (we’ll talk more about traits in Chapter 10). If a type implements the Copy trait, a variable is still valid after assignment to another variable. Rust won’t let us annotate a type with Copy if the type, or any of its parts, has implemented the **Drop trait**.
+As a general rule, any group of simple scalar values can implement Copy, and nothing that requires allocation or is some form of resource can implement Copy.
 
 * Mutable references have one big restriction: you can have only one mutable reference to a particular piece of data at a time.
 * The concepts of ownership, borrowing, and slices ensure memory safety in Rust programs at compile time.
@@ -112,15 +114,71 @@ fn main() {
 }
 ```
 Note that the struct update syntax uses = like an assignment; this is because it moves the data.
+    
 ## Types
 
-# Scalar Types: 
+### Scalar Types: 
 
 * Rust has four primary scalar types: integers, floating-point numbers, Booleans, and characters.
 * Signed numbers are stored using two’s complement representation.
 * In debug build, compiler adds code to crash if there is an integer overflow happens. However, while compiling in release mode, program doesn't panic. Rust does not include checks for integer overflow that cause panics. Instead, if overflow occurs, Rust performs two’s complement wrapping. In short, values greater than the maximum value the type can hold “wrap around” to the minimum of the values the type can hold. In the case of a u8, the value 256 becomes 0, the value 257 becomes 1, and so on. The program won’t panic, but the variable will have a value that probably isn’t what you were expecting it to have. Relying on integer overflow’s wrapping behavior is considered an error.
 * Rust will not automatically try to convert non-Boolean types to a Boolean.
 
+### Compound Types:
+
+#### Tuples
+
+The tuple without any values, (), is a special type that has only one value, also written (). The type is called the unit type and the value is called the unit value. Expressions implicitly return the unit value if they don’t return any other value.    
+
+```
+let tup: (i32, f64, u8) = (500, 6.4, 1);
+let first_index_value = x.0;
+let second_index_value = x.1;    
+```
+You can destruct tuple content:
+````
+    let tup = (500, 6.4, 1);
+
+    let (x, y, z) = tup;
+
+    println!("The value of y is: {}", y);
+    
+This program first creates a tuple and binds it to the variable tup. It then uses a pattern with let to take tup and turn it into three separate variables, x, y, and z. This is called destructuring, because it breaks the single tuple into three parts. 
+    
+#### The Array Type
+    Unlike a tuple, every element of an array must have the same type. Unlike arrays in some other languages, arrays in Rust have a fixed length.
+```
+    let a = [1, 2, 3, 4, 5];
+    let b: [i32; 5] = [1, 2, 3, 4, 5];
+    let a = [3; 5];  // 5 elements with same value 3
+
+```    
+Arrays are useful when you want your data allocated on the stack rather than the heap or when you want to ensure you always have a fixed number of elements.
+    
+#### Structs
+
+1. Normal struct:
+    
+* structs are unmutable by default. Note that the entire instance must be mutable; Rust doesn’t allow us to mark only certain fields as mutable.
+* struct update syntax: The syntax .. specifies that the remaining fields not explicitly set should have the same value as the fields in the given instance.
+```
+fn main() {
+    // --snip--
+
+    let user2 = User {
+        email: String::from("another@example.com"),
+        ..user1
+    };
+}
+```
+Note that the struct update syntax uses = like an assignment; this is because it moves the data.
+
+2. Tuple struct:
+
+Rust also supports structs that look similar to tuples, called tuple structs. Tuple structs have the added meaning the struct name provides but don’t have names associated with their fields; rather, they just have the types of the fields. Tuple structs are useful when you want to give the whole tuple a name and make the tuple a different type from other tuples, and when naming each field as in a regular struct would be verbose or redundant.
+
+3. Unit-Like structs: 
+    
 ## Tools
 
 * rustup: Check, install updates
