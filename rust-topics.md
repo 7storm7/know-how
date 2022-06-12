@@ -23,7 +23,10 @@ Types such as integers that have a known size at compile time are stored entirel
 **The ownership of a variable follows the same pattern every time: assigning a value to another variable moves it. When a variable that includes data on the heap goes out of scope, the value will be cleaned up by drop unless ownership of the data has been moved to another variable.**
 Rust has a feature for using a value without transferring ownership, called references (referencing/dereferencing).
 
+Types such as integers that have a known size at compile time are stored entirely on the stack, so copies of the actual values are quick to make. So when you assing from one variable to the other the variable doesn't get invalid after assignment.Complier just clones the content.
+
 * Mutable references have one big restriction: you can have only one mutable reference to a particular piece of data at a time.
+* The concepts of ownership, borrowing, and slices ensure memory safety in Rust programs at compile time.
 
 ## Terminology
 
@@ -74,7 +77,8 @@ Rust enforces a similar rule for combining mutable and immutable references.
     println!("{}", r3);
     ```
 * Dangling references: In Rust, the compiler guarantees that references will never be dangling references: if you have a reference to some data, the compiler will ensure that the data will not go out of scope before the reference to the data does.
-* String slices: A string slice is a reference to part of a String, and it looks like this:
+* Slices: let you reference a contiguous sequence of elements in a collection rather than the whole collection. A slice is a kind of reference, so it does not have ownership. Solves the empties memory
+  String slices: A string slice is a reference to part of a String, and it looks like this:
 ```
     let s = String::from("hello world");
 
@@ -95,7 +99,19 @@ The type that signifies “string slice” is written as &str.
     &s[..]
 }
 ```
-    
+Note: String slice range indices must occur at valid UTF-8 character boundaries. If you attempt to create a string slice in the middle of a multibyte character, your program will exit with an error.
+* struct update syntax: The syntax .. specifies that the remaining fields not explicitly set should have the same value as the fields in the given instance.
+```
+fn main() {
+    // --snip--
+
+    let user2 = User {
+        email: String::from("another@example.com"),
+        ..user1
+    };
+}
+```
+Note that the struct update syntax uses = like an assignment; this is because it moves the data.
 ## Types
 
 # Scalar Types: 
