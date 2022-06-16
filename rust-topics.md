@@ -1,4 +1,7 @@
 # RUST
+## KEYWORDS
+
+Prelude, Expression, statement, traits, macros, patterns, binding (to a value), snake_case notation, ahead-of-time compiling, mutable, Combining match and enums is user favorite, crates, cargo workspaces, crate root, sibling modules, child modules, parent modules, unit value ("()"), private/public 
 
 ## INFO
 
@@ -31,6 +34,13 @@ As a general rule, any group of simple scalar values can implement Copy, and not
 * Mutable references have one big restriction: you can have only one mutable reference to a particular piece of data at a time.
 * The concepts of ownership, borrowing, and slices ensure memory safety in Rust programs at compile time.
 * Debug output for development: dbg! macro. Note: Calling the dbg! macro prints to the standard error console stream (stderr), as opposed to println! which prints to the standard output console stream (stdout). 
+* Module system:
+    - Packages: A Cargo feature that lets you build, test, and share crates. A package contains a Cargo.toml file that describes how to build those crates.
+    - Crates: A tree of modules that produces a library or executable. A crate can be a binary crate or a library crate. Binary crates are programs you can compile to an executable that you can run, such as a command-line program or a server. They must have a function called main that defines what happens when the executable runs. Library crates don’t have a main function, and they don’t compile to an executable. They define functionality intended to be shared with multiple projects. The crate root is a source file that the Rust compiler starts from and makes up the root module of your crate. src/main.rs is the crate root of a binary crate with the same name as the package. Likewise, Cargo knows that if the package directory contains src/lib.rs, the package contains a library crate with the same name as the package, and src/lib.rs is its crate root. Cargo passes the crate root files to rustc to build the library or binary. **A package can contain at most one library crate.** It can contain as many binary crates as you’d like, but it must contain at least one crate (either library or binary).
+    - Modules and use: Let you control the organization, scope, and privacy of paths. Modules let us organize code within a crate into groups for readability and easy reuse. Modules also control the privacy of items, which is whether an item can be used by outside code (public) or is an internal implementation detail and not available for outside use (private). Making the module public doesn’t make its contents public. The pub keyword on a module only lets code in its ancestor modules refer to it.
+    - Paths: A way of naming an item, such as a struct, function, or module
+* The way privacy works in Rust is that all items (functions, methods, structs, enums, modules, and constants) are private by default. So, if you want to make an item like a function or struct private, you put it in a module. Items in a parent module can’t use the private items inside child modules, but items in child modules can use the items in their ancestor modules. The reason is that child modules wrap and hide their implementation details, but the child modules can see the context in which they’re defined. But you can expose inner parts of child modules’ code to outer ancestor modules by using the pub keyword to make an item public.
+ If we use pub before a struct definition, we make the struct public, but the struct’s fields will still be private. We can make each field public or not on a case-by-case basis. In contrast, if we make an enum public, all of its variants are then public. We only need the pub before the enum keyword.
 
 
 ## Terminology
@@ -168,6 +178,8 @@ The &self is actually short for self: &Self. Within an impl block, the type Self
 * Getters: When we give methods with the same name as a struct field we want it to only return the value in the field and do nothing else. Methods like this are called getters, and Rust does not implement them automatically for struct fields as some other languages do. Getters are useful because you can make the field private but the method public and thus enable read-only access to that field as part of the type’s public API. 
 * Automatic referencing and dereferencing: Rust doesn’t have an equivalent to the -> operator like in C++. Instead, when you call a method with object.something(), Rust automatically adds in &, &mut, or * so object matches the signature of the method. This automatic referencing behavior works because methods have a clear receiver—the type of self. Given the receiver and name of a method, Rust can figure out definitively whether the method is **reading (&self)**, **mutating (&mut self)**, or **consuming (self)**. The fact that Rust makes borrowing implicit for method receivers is a big part of making ownership ergonomic in practice. 
     
+* re-exporting: bringing an item into scope but also making that item available for others to bring into their scope.
+    
     
 ## Types
 
@@ -298,7 +310,7 @@ enum Option<T> {
 }
 ```
     
-The Option<T> enum is so useful that it’s even included in the prelude; you don’t need to bring it into scope explicitly. Its variants are also included in the prelude: you can use Some and None directly without the Option:: prefix. The Option<T> enum is still just a regular enum, and Some(T) and None are still variants of type Option<T>.   
+The Option<T> enum is so useful that it’s even included in the prelude(enum type in standard library); you don’t need to bring it into scope explicitly. Its variants are also included in the prelude: you can use Some and None directly without the Option:: prefix. The Option<T> enum is still just a regular enum, and Some(T) and None are still variants of type Option<T>.   
 
 ```
     let some_number = Some(5);
@@ -311,7 +323,33 @@ When we have a Some value, we know that a value is present and the value is held
 In short, because Option<T> and T (where T can be any type) are different types, the compiler won’t let us use an Option<T> value as if it were definitely a valid value. 
 You have to convert an Option<T> to a T before you can perform T operations with it. Generally, this helps catch one of the most common issues with null: assuming that something isn’t null when it actually is.    
 Eliminating the risk of incorrectly assuming a not-null value helps you to be more confident in your code. In order to have a value that can possibly be null, you must explicitly opt in by making the type of that value Option<T>. Then, when you use that value, you are required to explicitly handle the case when the value is null. Everywhere that a value has a type that isn’t an Option<T>, you can safely assume that the value isn’t null. This was a deliberate design decision for Rust to limit null’s pervasiveness and increase the safety of Rust code.    
+
+**match control flow:** allows you to compare a value against a series of patterns and then execute code based on which pattern matches. Patterns can be made up of literal values, variable names, wildcards, and many other things.
+Option<T> has Some() and None variants.
     
+Matches in Rust are exhaustive: we must exhaust every last possibility in order for the code to be valid. Especially in the case of Option<T>, when Rust prevents us from forgetting to explicitly handle the None case, it protects us from assuming that we have a value when we might have null, thus making the billion-dollar mistake discussed earlier impossible.
+    
+catch-all pattern: _, which is a special pattern that matches any value and does not bind to that value. This tells Rust we aren’t going to use the value, so Rust won’t warn us about an unused variable.
+```
+    let dice_roll = 9;
+    match dice_roll {
+        3 => add_fancy_hat(),
+        7 => remove_fancy_hat(),
+        _ => (),
+    }
+
+    fn add_fancy_hat() {}
+    fn remove_fancy_hat() {}
+```    
+**if let control flow:** Instead of using match control flow with 'add _ => ()' arm, we can use "if let":
+```
+    let config_max = Some(3u8);
+    if let Some(max) = config_max {
+        println!("The maximum is configured to be {}", max);
+    }
+```
+where Some(max) is patter and after '=' it is the expression.    
+In other words, you can think of if let as syntax sugar for a match that runs code when the value matches one pattern and then ignores all other values.
     
 ## Tools
 
