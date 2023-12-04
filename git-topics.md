@@ -19,3 +19,8 @@ Sample: From latest stash
 ```bash
 git stash show -p stash@{0} > Stash0.patch
 ```
+## Get branch of a specific commit
+```bash
+commit=fe116a929fd992f96c2860b38b6c641d9df7f60b
+git branch --contains $commit
+```
